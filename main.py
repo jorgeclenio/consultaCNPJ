@@ -2,61 +2,21 @@ import os
 import sys
 import requests
 
-#
-# TRATAR POSSÍVEIS ERROS
-#
-
-separador = '--------------------------------------------------------------------------------------------------------------------------'
+separador = '====================================================================='
 
 
 def main(args):
     cnpj = args[1]
     if len(cnpj) != 14:
-        print('Quantidade de dígitos inválida!')
+        print(f'{separador}\n| Quantidade de dígitos inválida!\n{separador}')
         exit()
 
     r = requests.get(f'https://www.receitaws.com.br/v1/cnpj/{cnpj}')
     data = r.json()
-
-    print(f'{separador}')
-
-    print(f'CNPJ:                       {data["cnpj"]}')
-    print(f'Razão Social:               {data["nome"]}')
-    print(f'Nome Fantasia:              {data["fantasia"]}')
-
-    print(f'{separador}')
-
-    print(f'Tipo:                       {data["tipo"]}')
-    print(f'Data Abertura:              {data["abertura"]}')
-    print(f'Situação Cadastral:         {data["situacao"]}')
-    print(f'Data Situação Cadastral:    {data["data_situacao"]}')
-    print(f'Capital Social:             R${data["capital_social"]}')
-
-    print(f'{separador}')
-
-    print(f'Natureza Jurídica:          {data["natureza_juridica"]}')
-    # print(f'Empresa MEI:                {data[""]}')
-
-    print(f'{separador}')
-
-    print(f'Logradouro:                 {data["logradouro"]}')
-    print(f'Número:                     {data["numero"]}')
-    print(f'Complemento:                {data["complemento"]}')
-    print(f'CEP:                        {data["cep"]}')
-
-    print(f'{separador}')
-
-    print(f'Bairro:                     {data["bairro"]}')
-    print(f'Município:                  {data["municipio"]}')
-    print(f'UF:                         {data["uf"]}')
-
-    print(f'{separador}')
-
-    print(f'Telefone:                   {data["telefone"]}')
-    print(f'E-mail:                     {data["email"]}')
-
-    print(f'{separador}')
-
+    if 'ERROR' not in data["status"]:
+        print(f'{separador}\n| CNPJ: {data["cnpj"]}\n| Razão Social: {data["nome"]}\n| Nome Fantasia: {data["fantasia"]}\n{separador}\n| Tipo: {data["tipo"]}\n| Data Abertura: {data["abertura"]}\n| Situação Cadastral: {data["situacao"]}\n| Data Situação Cadastral: {data["data_situacao"]}\n| Data Situação Cadastral: {data["data_situacao"]}\n| Capital Social: R${data["capital_social"]}\n{separador}\n| Natureza Jurídica: {data["natureza_juridica"]}\n{separador}\n| Logradouro: {data["logradouro"]}\n| Número: {data["numero"]}\n| Complemento: {data["complemento"]}\n| CEP: {data["cep"]}\n{separador}\n| Bairro: {data["bairro"]}\n| Município: {data["municipio"]}\n| UF: {data["uf"]}\n{separador}\n| Telefone: {data["telefone"]}\n| E-mail: {data["email"]}\n{separador}')
+    else:
+        print('{}'.format(data["message"]))
     return 0
 
 
